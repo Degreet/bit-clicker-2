@@ -1,0 +1,74 @@
+body {
+    font-family: sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.menu {
+    top: 10px;
+    right: 10px;
+}
+
+.money-count img {
+    width: 25px;
+    margin-bottom: 3.5px;
+}
+
+.money-count {
+    display: flex;
+    align-items: center;
+}
+
+.money-count span {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.menu-coin {
+    top: 60px;
+    right: 12px;
+}
+
+main div img {
+    width: 230px;
+    cursor: pointer;
+}
+
+main div img:hover {
+    opacity: .92;
+}
+
+main div img:active {
+    transform: scale(.9);
+}
+
+.progress {
+    height: 25px;
+}
+
+.progress div {
+    width: 0;
+}
+
+main div .progress-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.block {
+    display: flex;
+    flex-direction: column;
+}
+
+.inline-block {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
