@@ -5,11 +5,13 @@ if (!localStorage.roundClicksNeed) localStorage.roundClicksNeed = 100
 if (!localStorage.userClicks) localStorage.userClicks = 0
 if (!localStorage.userCoins) localStorage.userCoins = 0
 if (!localStorage.autoClickers) localStorage.autoClickers = 0
-if (localStorage.autoClickers >= 1) setInterval(() => coin.click(), 2000)
+if (localStorage.autoClickers >= 1) setInterval(() => {for (let i = 0; i < localStorage.autoClickers; i++) coin.click()}, 2000)
 
 coin.onclick = () => {
-    coinSound.currentTime = 0
-    coinSound.play()
+    if (!localStorage.offSound) {
+        coinSound.currentTime = 0
+        coinSound.play()
+    }
 
     if (progressBarWidth >= 100) {
         resultRoundHref.click()
@@ -58,12 +60,19 @@ buyOneAutoClicker.onclick = () => {
     }
 }
 
+function toggleSound() {
+    if (localStorage.offSound == "true") delete localStorage.offSound
+    else if (!localStorage.offSound) localStorage.offSound = true
+}
+
 setInterval(() => {
     userClicks.innerText = localStorage.userClicks
     roundClicksNeed.innerText = localStorage.roundClicksNeed
     progressBar.style.width = localStorage.userClicks * 100 / localStorage.roundClicksNeed + '%'
     progressBarWidth = localStorage.userClicks * 100 / localStorage.roundClicksNeed
     moneyCount.innerText = Number(localStorage.userCoins)
+    if (!localStorage.offSound) offSound.innerText = 'Выключить'
+    else offSound.innerText = 'Включить'
 
     if (Number(localStorage.userCoins) >= "5" && !localStorage.x2Click) {
         buyX2Click.innerText = 'Купить за 5 биткоинов'
