@@ -15,8 +15,10 @@ coin.onclick = () => {
 
     if (progressBarWidth >= 100) {
         resultRoundHref.click()
-        uppedMoney.innerText = localStorage.roundClicksNeed / 100
+        if (localStorage.minus50score == "true") uppedMoney.innerText = localStorage.roundClicksNeed / 50
+        else uppedMoney.innerText = localStorage.roundClicksNeed / 100
         for (let i = 0; i < 100; i++) localStorage.roundClicksNeed++
+        if (localStorage.minus50score == "true") for (let i = 0; i < 50; i++) localStorage.roundClicksNeed--
         for (let i = 0; i < uppedMoney.innerText; i++) localStorage.userCoins++
         localStorage.userClicks = 0
     } else {
@@ -37,6 +39,11 @@ function infoAlert(text) {
     alert(text)
 }
 
+function toggleSound() {
+    if (localStorage.offSound == "true") delete localStorage.offSound
+    else if (!localStorage.offSound) localStorage.offSound = true
+}
+
 buyX2Click.onclick = () => {
     if (localStorage.userCoins >= 5 && !localStorage.x2Click) {
         for (let i = 0; i < 5; i++) localStorage.userCoins--
@@ -48,36 +55,44 @@ buyX2Click.onclick = () => {
     }
 }
 
+minus50score.onclick = () => {
+    if (localStorage.userCoins >= 10 && !localStorage.minus50score) {
+        for (let i = 0; i < 10; i++) localStorage.userCoins--
+        alert("Вы успешно преобрели -50 очков!")
+        localStorage.minus50score = true
+        for (let i = 0; i < 50; i++) localStorage.roundClicksNeed--
+    } else {
+        if (localStorage.userCoins < 10) alert("У вас не достаточно биткоинов!")
+        else if (localStorage.minus50score) alert("Вы уже купили данный товар!")
+    }
+}
+
 buyOneAutoClicker.onclick = () => {
     if (Number(localStorage.userCoins) >= 3 && Number(localStorage.autoClickers) < 25) {
         for (let i = 0; i < 3; i++) localStorage.userCoins--
         alert("Вы успешно преобрели +1 автокликер!")
         localStorage.autoClickers++
-        setInterval(() => coin.click(), 2000)
+        if (!coinInterval) coinInterval = setInterval(() => coin.click(), 2000)
     } else {
         if (Number(localStorage.userCoins) < 3) alert("У вас не достаточно биткоинов!")
         else if (Number(localStorage.autoClickers) < 25) alert("Вы купили полностью этот товар!")
     }
 }
 
-function toggleSound() {
-    if (localStorage.offSound == "true") delete localStorage.offSound
-    else if (!localStorage.offSound) localStorage.offSound = true
-}
-
 setInterval(() => {
     userClicks.innerText = localStorage.userClicks
     roundClicksNeed.innerText = localStorage.roundClicksNeed
-    progressBar.style.width = localStorage.userClicks * 100 / localStorage.roundClicksNeed + '%'
     progressBarWidth = localStorage.userClicks * 100 / localStorage.roundClicksNeed
+    progressBar.style.width = progressBarWidth + '%'
     moneyCount.innerText = Number(localStorage.userCoins)
     if (!localStorage.offSound) offSound.innerText = 'Выключить'
     else offSound.innerText = 'Включить'
 
-    if (Number(localStorage.userCoins) >= "5" && !localStorage.x2Click) {
+    if (Number(localStorage.userCoins) >= 5 && !localStorage.x2Click) {
         buyX2Click.innerText = 'Купить за 5 биткоинов'
+        buyX2Click.className = 'btn btn-outline-primary'
     } else {
-        if (Number(localStorage.userCoins) < "5") {
+        if (Number(localStorage.userCoins) < 5) {
             buyX2Click.innerText = 'Купить за 5 биткоинов'
             buyX2Click.className = 'btn btn-outline-danger'
         }
@@ -88,8 +103,9 @@ setInterval(() => {
         }
     }
 
-    if (Number(localStorage.userCoins) >= "3" && Number(localStorage.autoClickers) < 25) {
+    if (Number(localStorage.userCoins) >= 3 && Number(localStorage.autoClickers) < 25) {
         buyOneAutoClicker.innerText = 'Купить за 3 биткоина'
+        buyOneAutoClicker.className = 'btn btn-outline-primary'
     } else {
         if (Number(localStorage.userCoins) < 3) {
             buyOneAutoClicker.innerText = 'Купить за 3 биткоина'
@@ -99,6 +115,21 @@ setInterval(() => {
         if (Number(localStorage.autoClickers) == 25) {
             buyOneAutoClicker.innerText = 'Куплено полностью'
             buyOneAutoClicker.className = 'btn btn-outline-warning'
+        }
+    }
+
+    if (Number(localStorage.userCoins) >= 10 && !localStorage.minus50score) {
+        minus50score.innerText = 'Купить за 10 биткоинов'
+        minus50score.className = 'btn btn-outline-primary'
+    } else {
+        if (Number(localStorage.userCoins) < 10) {
+            minus50score.innerText = 'Купить за 10 биткоинов'
+            minus50score.className = 'btn btn-outline-danger'
+        }
+        
+        if (localStorage.minus50score) {
+            minus50score.innerText = 'Куплено за 10 биткоинов'
+            minus50score.className = 'btn btn-outline-warning'
         }
     }
 }, 50)

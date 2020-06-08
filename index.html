@@ -75,6 +75,13 @@
                             <button class="btn btn-outline-primary ml-2" onclick="infoAlert(`Каждые 2 секунды биткоин будет нажиматся сам не ${localStorage.autoClickers} раз, а ${+localStorage.autoClickers + 1} раз.`)"><i class="fa fa-info"></i></button>
                         </div>
                     </div>
+                    <div class="block mt-3">
+                        -50 очков длительности раунда
+                        <div class="mt-2">
+                            <button class="btn btn-outline-primary" id="minus50score"></button>
+                            <button class="btn btn-outline-primary ml-2" onclick="infoAlert(`При покупке в каждом новом раунде вам придётся накопить на 50 очков меньше.`)"><i class="fa fa-info"></i></button>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Закрыть</button>
